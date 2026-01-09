@@ -16,12 +16,54 @@
     <script src="www/config.js"></script>
 
     <script>
+$(function(){
+        setInterval(function(){
+            timer();
+        },500);
+    });
+
 let postsRef;
 let postsListener = null;
 // 現在の編集対象のID
 let currentEditId = null;
 // ログイン中のユーザ
 let currentUser = null;
+
+var time = false;
+var min = 0;
+var har = 0;
+
+ $(function() { 
+        $('#yoyaku').click(function(e) {
+            yoyaku();
+    });
+  });
+
+function yoyaku(){
+    time = true;
+    $("#yoyaku").html("予約中");
+}
+
+function timer(){
+    if(time){
+        var date = new Date();
+        console.log(date);
+        var ho = date.getHours();
+        console.log(date.getHours());
+        var min = date.getMinutes();
+        console.log(date.getMinutes());
+        if(date.getHours() == parseInt( $("#minute").val()) && date.getMinutes() == parseInt( $("#second").val())){
+               const authorVal = $('#authorInput').val();
+               const contentVal = $('#contentInput').val();
+                createPost(authorVal, contentVal);
+                time = false;
+                $("#yoyaku").html("予約投稿");
+            }
+        
+    }
+}
+
+
 
 // メッセージ表示処理
 function showMessage(message, type = 'success') {
@@ -31,6 +73,7 @@ function showMessage(message, type = 'success') {
             ${message}
         </div>
     `);
+    
 
     // 3秒後にメッセージを消す
     setTimeout(() => {
@@ -616,5 +659,9 @@ window.addEventListener('unload', () => {
             </div>
         </div>
     </div>
+
+    <input type="number" id="minute" class="btn-primary" value=0 >
+    <input type="number" id="second" class="btn-primary" value=15 >
+    <button id="yoyaku" class="btn-primary">予約投稿</button>
 </body>
 </html>
